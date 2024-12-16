@@ -1,0 +1,55 @@
+name: jop_task
+description: "A new Flutter project."
+
+publish_to: 'none'
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.3
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+
+  cupertino_icons: ^1.0.8
+  dio: ^5.7.0
+  flutter_svg: ^2.0.16
+  country_code_picker_plus: ^0.0.9
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+  flutter_lints: ^4.0.0
+
+
+flutter:
+
+
+  uses-material-design: true
+
+
+  assets:
+     - assets/fonts/
+     - assets/images/
+     - assets/svg/
+
+  fonts:
+     - family: DMSans
+       fonts:
+         - asset: assets/fonts/DMSans.ttf
+
+
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/to/font-from-package
