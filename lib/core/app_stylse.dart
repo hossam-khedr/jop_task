@@ -29,6 +29,14 @@ abstract class AppStyles{
       fontFamily: AppConstants.fontFamily,
     );
   }
+ static TextStyle dropDownHintStyle(){
+    return const TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w500,
+      color: AppColors.black24,
+      fontFamily: AppConstants.fontFamily,
+    );
+  }
  static TextStyle profileHintStyle(){
     return const TextStyle(
       fontSize: 18,
