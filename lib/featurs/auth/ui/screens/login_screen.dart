@@ -47,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
               massage: 'Login successfully',
               snackBarType: SnackBarType.success,
             );
-            Navigator.pushNamedAndRemoveUntil(context, RouteName.todo, (route)=>false);
+            Navigator.pushNamedAndRemoveUntil(context, RouteName.task, (route)=>false);
           }
         },
         builder: (context, state) {

@@ -3,7 +3,7 @@ import 'package:jop_task/core/app_colors.dart';
 import 'package:jop_task/core/app_responsive.dart';
 import 'package:jop_task/core/app_stylse.dart';
 
-class CustomTextFormField extends StatefulWidget {
+class CustomTextFormField extends StatelessWidget {
   final String hintText;
   final TextEditingController? controller;
   final Widget? suffixIcon;
@@ -12,6 +12,7 @@ class CustomTextFormField extends StatefulWidget {
   final int? maxLines;
   final bool? obscureText;
   final String? Function(String?)? validator;
+  final bool? readOnly;
 
   const CustomTextFormField(
       {super.key,
@@ -20,30 +21,26 @@ class CustomTextFormField extends StatefulWidget {
       this.suffixIcon,
       this.prefixIcon,
       this.keyboardType,
-      this.maxLines, this.obscureText, this.validator});
+      this.maxLines, this.obscureText, this.validator, this.readOnly});
 
-  @override
-  State<CustomTextFormField> createState() => _CustomTextFormFieldState();
-}
-
-class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      obscureText: widget.obscureText??false,
-      validator: widget.validator,
-      keyboardType: widget.keyboardType,
-      maxLines: widget.maxLines ?? 1,
-      controller: widget.controller,
+      obscureText: obscureText??false,
+      readOnly:readOnly??false ,
+      validator: validator,
+      keyboardType: keyboardType,
+      maxLines: maxLines ?? 1,
+      controller: controller,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(
           vertical: context.scaledHeight(15),
           horizontal: context.scaledWidth(15),
         ),
-        hintText: widget.hintText,
+        hintText: hintText,
         hintStyle: AppStyles.hintStyle(),
-        suffixIcon: widget.suffixIcon,
-        prefixIcon: widget.prefixIcon,
+        suffixIcon: suffixIcon,
+        prefixIcon: prefixIcon,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(

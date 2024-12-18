@@ -9,7 +9,7 @@ class AipServicesImplWithDio implements ApiServices {
   AipServicesImplWithDio({required this.dio}) {
     dio = Dio(
       BaseOptions(
-          baseUrl: 'https://todo.iraqsapp.com/',
+          baseUrl: 'https://task.iraqsapp.com/',
           connectTimeout: const Duration(seconds: 30),
           receiveTimeout: const Duration(seconds: 30),
           responseType: ResponseType.json,

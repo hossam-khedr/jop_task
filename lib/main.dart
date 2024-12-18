@@ -6,9 +6,9 @@ import 'package:jop_task/tasky.dart';
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
- // await CacheHelper.initShardPreferences();
   SecureManager.initSecureManager();
   await initDI();
+  await initTaskModule();
   runApp(const Tasky());
 }
 

@@ -7,7 +7,10 @@ import 'package:jop_task/featurs/auth/ui/screens/login_screen.dart';
 import 'package:jop_task/featurs/auth/ui/screens/register_screen.dart';
 import 'package:jop_task/featurs/open_app/splash.dart';
 import 'package:jop_task/featurs/open_app/welcome.dart';
-import 'package:jop_task/featurs/todo/ui/screens/todo_screen.dart';
+import 'package:jop_task/featurs/task/logic/cubit.dart';
+
+import '../../featurs/task/ui/screens/add_task/add_task_screen.dart';
+import '../../featurs/task/ui/screens/tasks_screen.dart';
 
 class RouteGenerator {
   static Route? generateRoute(RouteSettings setting) {
@@ -32,8 +35,15 @@ class RouteGenerator {
             child: const RegisterScreen(),
           ),
         );
-      case RouteName.todo:
-        return MaterialPageRoute(builder: (_)=>const TodoScreen());
+      case RouteName.task:
+        return MaterialPageRoute(builder: (_) => const TaskScreen());
+      case RouteName.addNewTask:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (_)=>sl<TaskCubit>(),
+            child: const AddTaskScreen(),
+          ),
+        );
       default:
         return null;
     }

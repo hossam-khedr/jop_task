@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if(!mounted)return;
     if(accessToken != null){
       Navigator.pushNamedAndRemoveUntil(
-          context, RouteName.todo, (roure) => false);
+          context, RouteName.task, (roure) => false);
     }else{
       Navigator.pushNamedAndRemoveUntil(
           context, RouteName.welcome, (roure) => false);

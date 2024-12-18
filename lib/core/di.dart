@@ -5,6 +5,10 @@ import 'package:jop_task/featurs/auth/data/data_source.dart';
 import 'package:jop_task/featurs/auth/data/remote/remote_data_source.dart';
 import 'package:jop_task/featurs/auth/data/repo.dart';
 import 'package:jop_task/featurs/auth/logic/cubit.dart';
+import 'package:jop_task/featurs/task/data/data_source.dart';
+import 'package:jop_task/featurs/task/data/remote/remote_data_source.dart';
+import 'package:jop_task/featurs/task/data/repo.dart';
+import 'package:jop_task/featurs/task/logic/cubit.dart';
 
 import 'networking/api_services/api_services_impl.dart';
 
@@ -18,4 +22,10 @@ Future<void>initAuthModule()async{
   sl.registerFactory<AuthDataSource>(()=>AuthRemoteDataSource(apiServices: sl()));
   sl.registerFactory<AuthRepo>(()=>AuthRepo(authDataSource: sl()));
   sl.registerFactory<AuthCubit>(()=>AuthCubit(authRepo: sl()));
+}
+
+Future<void>initTaskModule()async{
+  sl.registerLazySingleton<TaskDatasource>(()=>TaskDataSourceImpl(apiServices: sl()));
+  sl.registerLazySingleton<TaskRepo>(()=>TaskRepo(taskDatasource: sl()));
+  sl.registerLazySingleton<TaskCubit>(()=>TaskCubit(taskRepo: sl()));
 }
