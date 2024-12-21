@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:jop_task/core/app_responsive.dart';
 
+import '../../../../../../core/app_constants.dart';
 
-import '../../../../core/app_constants.dart';
+
+
 
 class TapWidgets extends StatelessWidget {
   final String libele;

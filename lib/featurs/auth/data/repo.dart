@@ -17,9 +17,9 @@ class AuthRepo {
       final response = await authDataSource.login(params);
       String accessToken = response.data['access_token'];
       String refreshToken = response.data['refresh_token'];
-      SecureManager.writeData(
+      SecureManager.setData(
           key: AppConstants.accessToken, value: accessToken);
-      SecureManager.writeData(
+      SecureManager.setData(
           key: AppConstants.refreshToken, value: refreshToken);
       debugPrint("ACCESS TOKEN ;$accessToken");
       debugPrint("REFRESH TOKEN ;$refreshToken");

@@ -8,11 +8,14 @@ class SecureManager{
  static void initSecureManager(){
     storage = const FlutterSecureStorage();
   }
-  static Future<String?> readData({required String key})async{
+  static Future<String?> getData({required String key})async{
   return await storage?.read(key: key);
   }
-  static Future<void>writeData({required String key,required String value})async{
+  static Future<void>setData({required String key,required String value})async{
   await storage?.write(key: key, value: value);
+  }
+  static Future<void> deleteValue(String key)async{
+  await storage?.delete(key: key);
   }
 
 }

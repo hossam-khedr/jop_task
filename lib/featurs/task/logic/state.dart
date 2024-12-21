@@ -1,3 +1,5 @@
+import 'package:jop_task/featurs/auth/data/models/register_model.dart';
+
 enum TaskStatus {
   init,
   loading,
@@ -24,6 +26,8 @@ class TaskStates {
   final String imagePath;
   final DateTime? selectedDate;
   final String dataFormat;
+  final RegisterModel? model;
+
 
   TaskStates({
     this.taskStatus = TaskStatus.init,
@@ -32,6 +36,7 @@ class TaskStates {
     this.imagePath = '',
     this.selectedDate,
     this.dataFormat = '',
+    this.model,
   });
 
   TaskStates copyWith(
@@ -40,7 +45,9 @@ class TaskStates {
       String? selectedPriority,
       String? imagePath,
       DateTime? selectedDate,
-      String? dataFormat}) {
+      String? dataFormat,
+        RegisterModel? model,
+      }) {
     return TaskStates(
       taskStatus: taskStatus ?? this.taskStatus,
       errorMessage: errorMessage ?? this.errorMessage,
@@ -48,6 +55,7 @@ class TaskStates {
       imagePath: imagePath ?? this.imagePath,
       selectedDate: selectedDate ?? this.selectedDate,
       dataFormat: dataFormat ?? this.dataFormat,
+      model: model ?? this.model
     );
   }
 }

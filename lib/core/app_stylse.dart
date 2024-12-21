@@ -40,6 +40,24 @@ abstract class AppStyles{
 
     );
   }
+ static TextStyle listTileTitleStyle(){
+    return const TextStyle(
+      fontSize: 12,
+      fontWeight: FontWeight.w500,
+      color: AppColors.black24,
+      fontFamily: AppConstants.fontFamily,
+
+    );
+  }
+ static TextStyle listTileSubTitleStyle(){
+    return const TextStyle(
+      fontSize: 18,
+      fontWeight: FontWeight.w700,
+      color: AppColors.black24,
+      fontFamily: AppConstants.fontFamily,
+
+    );
+  }
  static TextStyle textButtonStyle(){
     return const TextStyle(
       fontSize: 19,

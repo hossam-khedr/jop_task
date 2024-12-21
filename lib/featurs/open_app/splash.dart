@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
    _next()async {
-    var accessToken =await SecureManager.readData(key: AppConstants.accessToken);
+    var accessToken =await SecureManager.getData(key: AppConstants.accessToken);
     if(!mounted)return;
     if(accessToken != null){
       Navigator.pushNamedAndRemoveUntil(

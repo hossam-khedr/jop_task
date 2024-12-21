@@ -56,7 +56,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const AddImage(),
+                  context.read<TaskCubit>().compressedImage != null
+                      ? ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                          child: Image.file(
+                              context.read<TaskCubit>().compressedImage!),
+                        )
+                      : const AddImage(),
                   SizedBox(
                     height: context.scaledHeight(16),
                   ),
@@ -111,10 +117,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           child: CircularProgressIndicator(),
                         )
                       : CustomButton(
-                          text: 'Add task',
+                          text: 'Add all_tasks',
                           onPressed: () {
                             TaskModel task = TaskModel(
-                              image: context.read<TaskCubit>().selectedImage?.path,
+                                image: context
+                                    .read<TaskCubit>()
+                                    .selectedImage
+                                    ?.path,
                                 title: taskTitle.text,
                                 desc: taskDesc.text,
                                 priority: state.selectedPriority,

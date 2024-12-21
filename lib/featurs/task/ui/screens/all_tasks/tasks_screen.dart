@@ -1,18 +1,22 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:jop_task/core/app_colors.dart';
 import 'package:jop_task/core/app_responsive.dart';
 import 'package:jop_task/core/app_stylse.dart';
 import 'package:jop_task/core/widgets/custom_text.dart';
+import 'package:jop_task/featurs/task/ui/screens/all_tasks/widgets/all_tasks.dart';
+import 'package:jop_task/featurs/task/ui/screens/all_tasks/widgets/custom_flotting_action_button.dart';
+import 'package:jop_task/featurs/task/ui/screens/all_tasks/widgets/finished.dart';
+import 'package:jop_task/featurs/task/ui/screens/all_tasks/widgets/in_progress.dart';
+import 'package:jop_task/featurs/task/ui/screens/all_tasks/widgets/tap_widgets.dart';
+import 'package:jop_task/featurs/task/ui/screens/all_tasks/widgets/task_app_bar.dart';
+import 'package:jop_task/featurs/task/ui/screens/all_tasks/widgets/waiting.dart';
 
 
-import '../widgets/all_tasks.dart';
-import '../widgets/custom_flotting_action_button.dart';
-import '../widgets/finished.dart';
-import '../widgets/in_progress.dart';
-import '../widgets/tap_widgets.dart';
-import '../widgets/task_app_bar.dart';
-import '../widgets/waiting.dart';
+
+
+
+
 
 enum TapType { all, inProgress, waiting, finished }
 

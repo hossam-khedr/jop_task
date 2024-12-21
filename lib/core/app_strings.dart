@@ -2,7 +2,7 @@ abstract class AppStrings{
   static const String welcomeTitleText = 'Task Management &';
   static const String welcomeTitleText2 = 'To-Do List';
   static const String welcomeSubTitleText = 'This productive tool is designed to help ';
-  static const String welcomeSubTitleText1 = 'you better manage your task ';
+  static const String welcomeSubTitleText1 = 'you better manage your all_tasks ';
   static const String welcomeSubTitleText2 = 'project-wise conveniently! ';
   static const String letsStartText = 'Let’s Start ';
   static const String loginText = 'Login';
