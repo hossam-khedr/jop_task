@@ -27,6 +27,8 @@ class TaskStates {
   final DateTime? selectedDate;
   final String dataFormat;
   final RegisterModel? model;
+  final String scannedData;
+  final bool isScanning;
 
 
   TaskStates({
@@ -37,6 +39,8 @@ class TaskStates {
     this.selectedDate,
     this.dataFormat = '',
     this.model,
+    this.scannedData = '',
+    this.isScanning = false,
   });
 
   TaskStates copyWith(
@@ -47,6 +51,8 @@ class TaskStates {
       DateTime? selectedDate,
       String? dataFormat,
         RegisterModel? model,
+         String? scannedData,
+         bool? isScanning
       }) {
     return TaskStates(
       taskStatus: taskStatus ?? this.taskStatus,
@@ -55,7 +61,9 @@ class TaskStates {
       imagePath: imagePath ?? this.imagePath,
       selectedDate: selectedDate ?? this.selectedDate,
       dataFormat: dataFormat ?? this.dataFormat,
-      model: model ?? this.model
+      model: model ?? this.model,
+      scannedData: scannedData?? this.scannedData,
+      isScanning: isScanning ?? this.isScanning,
     );
   }
 }

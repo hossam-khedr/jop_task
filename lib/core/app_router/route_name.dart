@@ -7,4 +7,5 @@ abstract class RouteName{
   static const String addNewTask = 'addNewTask';
   static const String taskDetails = 'taskDetails';
   static const String profile = 'profile';
+  static const String qrcode = 'qrcode';
 }

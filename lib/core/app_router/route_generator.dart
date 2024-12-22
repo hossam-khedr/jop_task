@@ -9,6 +9,7 @@ import 'package:jop_task/featurs/open_app/splash.dart';
 import 'package:jop_task/featurs/open_app/welcome.dart';
 import 'package:jop_task/featurs/task/logic/cubit.dart';
 import 'package:jop_task/featurs/task/ui/screens/profile/profile_screen.dart';
+import 'package:jop_task/featurs/task/ui/screens/qr_code/qr_code_screen.dart';
 
 import '../../featurs/task/ui/screens/add_task/add_task_screen.dart';
 import '../../featurs/task/ui/screens/all_tasks/tasks_screen.dart';
@@ -52,10 +53,18 @@ class RouteGenerator {
         );
       case RouteName.profile:
         return MaterialPageRoute(
-            builder: (_) => BlocProvider(
-              create: (_)=>sl<TaskCubit>(),
-                  child: const ProfileScreen(),
-                ));
+          builder: (_) => BlocProvider(
+            create: (_) => sl<TaskCubit>(),
+            child: const ProfileScreen(),
+          ),
+        );
+      case RouteName.qrcode:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (_) => sl<TaskCubit>(),
+            child: const QrCodeScreen() ,
+          ),
+        );
       default:
         return null;
     }

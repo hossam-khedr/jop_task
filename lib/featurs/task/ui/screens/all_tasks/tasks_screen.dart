@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:jop_task/core/app_colors.dart';
 import 'package:jop_task/core/app_responsive.dart';
@@ -12,12 +11,6 @@ import 'package:jop_task/featurs/task/ui/screens/all_tasks/widgets/tap_widgets.d
 import 'package:jop_task/featurs/task/ui/screens/all_tasks/widgets/task_app_bar.dart';
 import 'package:jop_task/featurs/task/ui/screens/all_tasks/widgets/waiting.dart';
 
-
-
-
-
-
-
 enum TapType { all, inProgress, waiting, finished }
 
 class TaskScreen extends StatefulWidget {
@@ -29,6 +22,35 @@ class TaskScreen extends StatefulWidget {
 
 class _TaskScreenState extends State<TaskScreen> {
   TapType tapType = TapType.all;
+
+  Widget _getCurrentTaskStatus() {
+    switch (tapType) {
+      case TapType.all:
+        return const AllTasks();
+      case TapType.inProgress:
+        return const InProgress();
+      case TapType.waiting:
+        return const Waiting();
+      case TapType.finished:
+        return const Finished();
+    }
+  }
+
+  Widget _buildTapWidget(TapType type, String label) {
+  return  TapWidgets(
+      onTap: () {
+        setState(
+          () {
+            tapType = type;
+          },
+        );
+
+      },
+      libele: label,
+      containerColor: tapType == type ? AppColors.primary : AppColors.whit200,
+      textColor: tapType == type ? AppColors.whit : AppColors.gry400,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,80 +69,16 @@ class _TaskScreenState extends State<TaskScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                TapWidgets(
-                  onTap: () {
-                    setState(() {
-                      tapType = TapType.all;
-                    });
-                  },
-                  libele: 'All',
-                  containerColor: tapType == TapType.all
-                      ? AppColors.primary
-                      : AppColors.whit200,
-                  textColor: tapType == TapType.all
-                      ? AppColors.whit
-                      : AppColors.gry400,
-                ),
-                TapWidgets(
-                  onTap: () {
-                    setState(() {
-                      tapType = TapType.inProgress;
-                    });
-                  },
-                  libele: 'inProgress',
-                  containerColor: tapType == TapType.inProgress
-                      ? AppColors.primary
-                      : AppColors.whit200,
-                  textColor: tapType == TapType.inProgress
-                      ? AppColors.whit
-                      : AppColors.gry400,
-                ),
-                TapWidgets(
-                  onTap: () {
-                    setState(() {
-                      tapType = TapType.waiting;
-                    });
-                  },
-                  libele: 'Waiting',
-                  containerColor: tapType == TapType.waiting
-                      ? AppColors.primary
-                      : AppColors.whit200,
-                  textColor: tapType == TapType.waiting
-                      ? AppColors.whit
-                      : AppColors.gry400,
-                ),
-                TapWidgets(
-                  onTap: () {
-                    setState(() {
-                      tapType = TapType.finished;
-                    });
-                  },
-                  libele: 'Finished',
-                  containerColor: tapType == TapType.finished
-                      ? AppColors.primary
-                      : AppColors.whit200,
-                  textColor: tapType == TapType.finished
-                      ? AppColors.whit
-                      : AppColors.gry400,
-                ),
+                _buildTapWidget(TapType.all, 'All'),
+                _buildTapWidget(TapType.inProgress, 'In Progress'),
+                _buildTapWidget(TapType.waiting, 'Waiting'),
+                _buildTapWidget(TapType.finished, 'Finished'),
               ],
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: 4,
-                itemBuilder: (context, index) {
-                  if (tapType == TapType.all) {
-                    return const AllTasks();
-                  } else if (tapType == TapType.inProgress) {
-                    return const InProgress();
-                  } else if (tapType == TapType.waiting) {
-                    return const Waiting();
-                  } else if (tapType == TapType.finished) {
-                    return const Finished();
-                  }
-                },
+              child: _getCurrentTaskStatus()
               ),
-            )
+
           ],
         ),
       ),

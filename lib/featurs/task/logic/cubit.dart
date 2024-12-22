@@ -13,8 +13,6 @@ import 'package:jop_task/featurs/task/logic/state.dart';
 import 'package:image/image.dart' as img;
 
 import '../../../core/di.dart';
-import '../../../core/networking/api_services/api_services_impl.dart';
-
 class TaskCubit extends Cubit<TaskStates> {
   final TaskRepo taskRepo;
 
@@ -125,4 +123,11 @@ Future<void> refreshToken()async{
     );
   }
 
+
+  void setScannedData (String data){
+    if(!isClosed){
+      emit(state.copyWith(taskStatus: TaskStatus.success,scannedData: data));
+    }
+
+  }
 }

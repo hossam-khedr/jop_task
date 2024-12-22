@@ -10,4 +10,5 @@ abstract class SvgIcons{
   static const String flag = '${svpPath}flag.svg';
   static const String calender = '${svpPath}calendar.svg';
   static const String copy = '${svpPath}copy_icon.svg';
+  static const String qrcode = '${svpPath}qrcode_icon.svg';
 }
