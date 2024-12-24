@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jop_task/core/app_responsive.dart';
+import 'package:jop_task/core/widgets/custom_text.dart';
 
 import '../../../../../../core/app_icons.dart';
 import '../../../../../../core/app_stylse.dart';
@@ -22,8 +23,8 @@ class QrCodeAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: SvgPicture.asset(SvgIcons.arrowR),
         ),
       ),
-      title: Text(
-        'QR code',
+      title: CustomText(
+       text:  'QR code',
         style: AppStyles.appBarTitleStyle(),
       ),
     );

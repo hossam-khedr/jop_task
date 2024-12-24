@@ -32,56 +32,54 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
         appBar: const QrCodeAppBar(),
         body: BlocConsumer<TaskCubit, TaskStates>(
           listener: (context, state) {
-            if (state.isSuccess) {
-              CustomSnackBar.show(
-                context: context,
-                massage: 'Scanner Successfully',
-                snackBarType: SnackBarType.success
-              );
-            }
+            // if (state.isSuccess) {
+            //   CustomSnackBar.show(
+            //     context: context,
+            //     massage: 'Scanner Successfully',
+            //     snackBarType: SnackBarType.success
+            //   );
+            // }
           },
           builder: (context, state) {
-            if (state.isSuccess) {
+            if (state.isScanningSuccess) {
               return Center(child: Text(state.scannedData));
             }
-              return MobileScanner(onDetect: (BarcodeCapture capture) {
-                final List<Barcode> barcodes = capture.barcodes;
-                for (final barcode in barcodes) {
-                  context
-                      .read<TaskCubit>()
-                      .setScannedData(barcode.rawValue ?? 'No data');
-                }
-              });
-
-
+            return MobileScanner(onDetect: (BarcodeCapture capture) {
+              final List<Barcode> barcodes = capture.barcodes;
+              for (final barcode in barcodes) {
+                context
+                    .read<TaskCubit>()
+                    .setScannedData(barcode.rawValue ?? 'No data');
+              }
+            },);
           },
         )
-        // Column(
-        //   children: [
-        //     Expanded(
-        //       flex: 4,
-        //       child: QRView(
-        //         key: qrKey,
-        //         onQRViewCreated: _onQRViewCreated,
-        //       ),
-        //     ),
-        //     Expanded(
-        //       flex: 1,
-        //       child: BlocBuilder<TaskCubit,TaskStates>(
-        //         builder: (context, state) {
-        //           if(state.isScanning){
-        //             return const Text('Scanning...');
-        //           }if(state.scannedData.isNotEmpty){
-        //             return Text('Scanned ${state.scannedData}');
-        //           }else{
-        //             return const Text('scan a code');
-        //           }
-        //         },
-        //       ),
-        //     )
-        //   ],
-        // ),
-        );
+      // Column(
+      //   children: [
+      //     Expanded(
+      //       flex: 4,
+      //       child: QRView(
+      //         key: qrKey,
+      //         onQRViewCreated: _onQRViewCreated,
+      //       ),
+      //     ),
+      //     Expanded(
+      //       flex: 1,
+      //       child: BlocBuilder<TaskCubit,TaskStates>(
+      //         builder: (context, state) {
+      //           if(state.isScanning){
+      //             return const Text('Scanning...');
+      //           }if(state.scannedData.isNotEmpty){
+      //             return Text('Scanned ${state.scannedData}');
+      //           }else{
+      //             return const Text('scan a code');
+      //           }
+      //         },
+      //       ),
+      //     )
+      //   ],
+      // ),
+    );
   }
 
 // void _onQRViewCreated(QRViewController controller) {

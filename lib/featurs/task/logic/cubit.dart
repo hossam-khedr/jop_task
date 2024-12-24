@@ -13,14 +13,18 @@ import 'package:jop_task/featurs/task/logic/state.dart';
 import 'package:image/image.dart' as img;
 
 import '../../../core/di.dart';
+
 class TaskCubit extends Cubit<TaskStates> {
   final TaskRepo taskRepo;
 
   TaskCubit({required this.taskRepo}) : super(TaskStates());
 
   void updatePriority(String value) {
-    emit(state.copyWith(
-        taskStatus: TaskStatus.updatePriority, selectedPriority: value));
+    if(!isClosed){
+      emit(state.copyWith(
+          taskStatus: TaskStatus.updatePriority, selectedPriority: value));
+    }
+
   }
 
   Future<void> pickeDate(BuildContext context) async {
@@ -32,14 +36,16 @@ class TaskCubit extends Cubit<TaskStates> {
       lastDate: DateTime(2026),
     );
     if (pickd != null && pickd != dateTime) {
-      String formattedDate = DateFormat('d-M-yyyy').format(pickd);
+      String formattedDate = DateFormat('yyyy-M-d').format(pickd);
       pickd = dateTime;
-      emit(
-        state.copyWith(
-            taskStatus: TaskStatus.selectedDate,
-            selectedDate: pickd,
-            dataFormat: formattedDate),
-      );
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+              taskStatus: TaskStatus.selectedDate,
+              selectedDate: pickd,
+              dataFormat: formattedDate),
+        );
+      }
     }
   }
 
@@ -56,78 +62,92 @@ class TaskCubit extends Cubit<TaskStates> {
       final img.Image? imageTamp =
           img.decodeImage(await originalFile.readAsBytesSync());
       if (imageTamp != null) {
-        final img.Image compressedTemp = img.copyResize(
-          imageTamp,
-          width: 800,
-          height: 600
-        );
+        final img.Image compressedTemp =
+            img.copyResize(imageTamp, width: 800, height: 600);
         compressedImage = File(originalFile.path)
-          ..writeAsBytesSync(img.encodeJpg(
-            compressedTemp,
-            quality: 70
-          ));
+          ..writeAsBytesSync(img.encodeJpg(compressedTemp, quality: 70));
       }
       debugPrint('Image compressed successfully: ${compressedImage?.path}');
     }
   }
-Future<void> refreshToken()async{
-  var apiServices = sl<ApiServices>();
-  TokenManager manager = TokenManager(apiServices);
-  manager.refreshToken();
-}
+
+
+
   Future<void> addTask(TaskModel task) async {
     if (selectedImage == null || compressedImage == null) {
-      emit(state.copyWith(
-          taskStatus: TaskStatus.error,
-          errorMessage: 'Plays choose the image'));
+      if (!isClosed) {
+        emit(state.copyWith(
+            taskStatus: TaskStatus.selectedImageError,
+            errorMessage: 'Plays choose the image'));
+      }
+
       return;
     }
-
-    emit(state.copyWith(taskStatus: TaskStatus.loading));
-    await refreshToken();
-    (await taskRepo.addTask(path: compressedImage!.path, task: task)).fold(
-      (error) => emit(
-          state.copyWith(taskStatus: TaskStatus.error, errorMessage: error)),
-      (success) => emit(
-        state.copyWith(
-          taskStatus: TaskStatus.success,
-        ),
-      ),
-    );
-  }
-  Future<void> logout() async {
-    emit(state.copyWith(taskStatus: TaskStatus.loading));
-
-    (await taskRepo.logout()).fold(
-          (error) => emit(
-          state.copyWith(taskStatus: TaskStatus.error, errorMessage: error)),
-          (success) => emit(
-        state.copyWith(
-          taskStatus: TaskStatus.success,
-        ),
-      ),
-    );
-  }
-  Future<void> getUserInfo() async {
-    emit(state.copyWith(taskStatus: TaskStatus.loading));
-
-    (await taskRepo.getUserInfo()).fold(
-          (error) => emit(
-          state.copyWith(taskStatus: TaskStatus.error, errorMessage: error)),
-          (data) => emit(
-        state.copyWith(
-          taskStatus: TaskStatus.success,
-          model: data
-        ),
-      ),
-    );
-  }
-
-
-  void setScannedData (String data){
-    if(!isClosed){
-      emit(state.copyWith(taskStatus: TaskStatus.success,scannedData: data));
+    if (!isClosed) {
+      emit(state.copyWith(taskStatus: TaskStatus.createTaskLoading));
     }
 
+    (await taskRepo.addTask(path: compressedImage!.path, task: task)).fold(
+        (error) {
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+            taskStatus: TaskStatus.crateTaskError,
+            errorMessage: error,
+          ),
+        );
+      }
+    }, (success) {
+      if (!isClosed) {
+        emit(state.copyWith(taskStatus: TaskStatus.createTaskSuccess));
+      }
+    });
+  }
+
+  Future<void> logout() async {
+    if (!isClosed) {
+      emit(state.copyWith(taskStatus: TaskStatus.logoutLoading));
+    }
+
+    (await taskRepo.logout()).fold((error) {
+      if (!isClosed) {
+        emit(state.copyWith(
+            taskStatus: TaskStatus.logoutError, errorMessage: error));
+      }
+    }, (success) {
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+            taskStatus: TaskStatus.logoutSuccess,
+          ),
+        );
+      }
+    });
+  }
+
+  Future<void> getUserInfo() async {
+    if (!isClosed) {
+      emit(state.copyWith(taskStatus: TaskStatus.getUserInfoLoading));
+    }
+    (await taskRepo.getUserInfo()).fold((error) {
+      if (!isClosed) {
+        emit(state.copyWith(
+            taskStatus: TaskStatus.getUserInfoError, errorMessage: error));
+      }
+    }, (data) {
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+              taskStatus: TaskStatus.getUserInfoSuccess, model: data),
+        );
+      }
+    });
+  }
+
+  void setScannedData(String data) {
+    if (!isClosed) {
+      emit(state.copyWith(
+          taskStatus: TaskStatus.scanningSuccess, scannedData: data));
+    }
   }
 }

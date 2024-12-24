@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jop_task/core/app_icons.dart';
 import 'package:jop_task/core/app_responsive.dart';
+import 'package:jop_task/core/app_stylse.dart';
 import 'package:jop_task/core/widgets/custom_snack_bar.dart';
+import 'package:jop_task/core/widgets/custom_text.dart';
 import 'package:jop_task/featurs/task/logic/cubit.dart';
 import 'package:jop_task/featurs/task/logic/state.dart';
 import 'package:jop_task/featurs/task/ui/screens/profile/widgets/body_profile_widget.dart';
@@ -23,6 +25,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
     context.read<TaskCubit>().getUserInfo();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,29 +35,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
           horizontal: context.scaledWidth(24),
           vertical: context.scaledHeight(24),
         ),
-        child: BlocBuilder<TaskCubit,TaskStates>(
-          builder: (context,state){
-            if(state.isError){
-              return Center(child: Text(state.errorMessage??''),);
+        child: BlocBuilder<TaskCubit, TaskStates>(
+          builder: (context, state) {
+            if (state.isGetUserInfoError) {
+              return Center(
+                child: CustomText(
+                  text: state.errorMessage ?? '',
+                  style: AppStyles.errorStyle(),
+                ),
+              );
             }
-            if(state.isLoading){
+            if (state.isGetUserInfoLoading) {
               return const Center(child: CircularProgressIndicator());
             }
-            if(state.isSuccess){
+            if (state.isGetUserInfoSuccess) {
               return Column(
                 spacing: context.scaledHeight(8),
                 children: [
-                   BodyProfileWidget(
+                  BodyProfileWidget(
                     title: 'NAME',
-                    subTitle: state.model?.displayName??'no name',
+                    subTitle: state.model?.displayName ?? 'no name',
                   ),
                   BodyProfileWidget(
                     title: 'PHONE',
-                    subTitle: state.model?.phone??'no phone',
+                    subTitle: state.model?.phone ?? 'no phone',
                     leading: InkWell(
                       onTap: () {
                         Clipboard.setData(
-                            const ClipboardData(text: '+20 1514101330'));
+                             ClipboardData(text: state.model?.phone??''));
                         CustomSnackBar.show(
                           context: context,
                           massage: 'Copyed',
@@ -64,26 +72,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: SvgPicture.asset(SvgIcons.copy),
                     ),
                   ),
-                   BodyProfileWidget(
+                  BodyProfileWidget(
                     title: 'LEVEL',
-                    subTitle: state.model?.level??'no level',
+                    subTitle: state.model?.level ?? 'no level',
                   ),
-                   BodyProfileWidget(
+                  BodyProfileWidget(
                     title: 'YEARS OF EXPERIENCE',
                     subTitle: state.model!.experienceYears.toString(),
                   ),
-                   BodyProfileWidget(
+                  BodyProfileWidget(
                     title: 'LOCATION',
-                    subTitle: state.model?.address??'no address',
+                    subTitle: state.model?.address ?? 'no address',
                   ),
                 ],
               );
-            }
-            else{
+            } else {
               return const SizedBox.shrink();
             }
           },
-
         ),
       ),
     );

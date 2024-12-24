@@ -30,14 +30,14 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<TaskCubit, TaskStates>(
       listener: (context, state) {
-        if (state.isError) {
+        if (state.isCreateTaskError) {
           CustomSnackBar.show(
             context: context,
             massage: state.errorMessage ?? '',
             snackBarType: SnackBarType.error,
           );
         }
-        if (state.isSuccess) {
+        if (state.isCreateTaskSuccess) {
           CustomSnackBar.show(
             context: context,
             massage: 'Task added successfully',
@@ -112,7 +112,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   SizedBox(
                     height: context.scaledHeight(24),
                   ),
-                  state.isLoading
+                  state.isCreateTaskLoading
                       ? const Center(
                           child: CircularProgressIndicator(),
                         )
@@ -122,7 +122,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             TaskModel task = TaskModel(
                                 image: context
                                     .read<TaskCubit>()
-                                    .selectedImage
+                                    .compressedImage
                                     ?.path,
                                 title: taskTitle.text,
                                 desc: taskDesc.text,

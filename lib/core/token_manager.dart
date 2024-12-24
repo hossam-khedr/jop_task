@@ -9,16 +9,19 @@ class TokenManager {
 
   TokenManager(this.apiServices);
 
-  Future<dynamic> refreshToken() async {
+  Future<String?> refreshToken() async {
     try {
       var refreshToken =
           await SecureManager.getData(key: AppConstants.refreshToken);
       final response = await apiServices.getRequest(
           endpoint: 'auth/refresh-token',
           queryParameters: {'token': refreshToken});
-       SecureManager.setData(
-          key: AppConstants.accessToken, value: response.data['access_token']);
-      return response;
+      final newToken = response.data['access_token'];
+      // if(newToken != null){
+      // //  await SecureManager.setData(
+      // //       key: AppConstants.accessToken, value: newToken);
+      // // }
+      return newToken;
     } catch (e) {
       debugPrint('REFRESH TOKEN ERROR : ${e.toString()}');
       return e.toString();

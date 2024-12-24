@@ -41,13 +41,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       child: SingleChildScrollView(
         child: BlocConsumer<AuthCubit, AuthStates>(
           listener: (context, state) {
-            if (state.isError) {
+            if (state.isRegisterError) {
               CustomSnackBar.show(
                   context: context,
                   massage: state.errorMessage ?? '',
                   snackBarType: SnackBarType.error);
             }
-            if (state.isSuccess) {
+            if (state.isRegisterSuccess) {
               CustomSnackBar.show(
                 context: context,
                 massage: 'Register successfully',
@@ -151,7 +151,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       return null;
                     },
                   ),
-                  state.isLoading
+                  state.isRegisterLoading
                       ? const Center(
                           child: CircularProgressIndicator(),
                         )

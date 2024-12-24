@@ -1,10 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:jop_task/core/app_constants.dart';
 import 'package:jop_task/core/networking/api_services/api_services.dart';
+import 'package:jop_task/core/secure_manager.dart';
+import 'package:jop_task/core/token_manager.dart';
 
+import '../../di.dart';
 import '../error_handler.dart';
 
 class AipServicesImplWithDio implements ApiServices {
+
   Dio dio;
   AipServicesImplWithDio({required this.dio}) {
     dio = Dio(
@@ -18,12 +23,23 @@ class AipServicesImplWithDio implements ApiServices {
             'Accept': 'application/json',
           }),
     );
-    dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
-      // added your token
+    dio.interceptors.add(InterceptorsWrapper(
+        onRequest: (options, handler)async {
+      final accessToken =await SecureManager.getData(key: AppConstants.accessToken);
+      if(accessToken != null){
+        options.headers['Authorization'] = 'Bearer $accessToken';
+      }
       return handler.next(options);
     }, onResponse: (response, handler) {
       return handler.next(response);
-    }, onError: (DioException error, handler) {
+    }, onError: (DioException error, handler)async {
+          final apiServices = sl<ApiServices>();
+          TokenManager manager = TokenManager(apiServices);
+          final newToken = await manager.refreshToken();
+          if(newToken != null){
+            await SecureManager.setData(key: AppConstants.accessToken, value: newToken);
+            error.requestOptions.headers['Authorization'] = 'Bearer $newToken';
+          }
       final errorMessage = DioErrorHandler.handleDioError(error);
       debugPrint('ERROR : $errorMessage');
       return handler.next(error);

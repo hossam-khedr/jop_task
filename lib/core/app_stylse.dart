@@ -22,11 +22,38 @@ abstract class AppStyles{
 
     );
   }
+ static TextStyle prioritySmallTextStyle(){
+    return const TextStyle(
+      fontSize: 12,
+      fontWeight: FontWeight.w500,
+      color: AppColors.blu,
+      fontFamily: AppConstants.fontFamily,
+
+    );
+  }
+ static TextStyle taskItemStyle(){
+    return const TextStyle(
+      fontSize: 12,
+      fontWeight: FontWeight.w500,
+      color: AppColors.error,
+      fontFamily: AppConstants.fontFamily,
+
+    );
+  }
  static TextStyle addImgStyle(){
     return const TextStyle(
       fontSize: 19,
       fontWeight: FontWeight.w500,
       color: AppColors.primary,
+      fontFamily: AppConstants.fontFamily,
+
+    );
+  }
+ static TextStyle errorStyle(){
+    return const TextStyle(
+      fontSize: 19,
+      fontWeight: FontWeight.w500,
+      color: AppColors.error,
       fontFamily: AppConstants.fontFamily,
 
     );

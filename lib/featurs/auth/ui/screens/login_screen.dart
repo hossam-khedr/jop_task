@@ -35,13 +35,13 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: BlocConsumer<AuthCubit, AuthStates>(
         listener: (context, state) {
-          if (state.isError) {
+          if (state.isLoginError) {
             CustomSnackBar.show(
                 context: context,
                 massage: state.errorMessage ?? '',
                 snackBarType: SnackBarType.error);
           }
-          if (state.isSuccess) {
+          if (state.isLoginSuccess) {
             CustomSnackBar.show(
               context: context,
               massage: 'Login successfully',
@@ -111,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           return null;
                         },
                       ),
-                      state.isLoading
+                      state.isLoginLoading
                           ? const Center(
                               child: CircularProgressIndicator(),
                             )

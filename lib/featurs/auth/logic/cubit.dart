@@ -17,22 +17,22 @@ void updateLevelValue(String? value){
   emit(state.copyWith(authStatus: AuthStatus.updateLevel,experienceLevel: value));
 }
   Future<void> login(LoginParams params) async {
-    emit(state.copyWith(authStatus: AuthStatus.loading));
+    emit(state.copyWith(authStatus: AuthStatus.loginLoading));
     (await authRepo.login(params)).fold(
       (error) => emit(
-          state.copyWith(authStatus: AuthStatus.error, errorMessage: error)),
+          state.copyWith(authStatus: AuthStatus.loginError, errorMessage: error)),
       (success) => emit(
-        state.copyWith(authStatus: AuthStatus.success),
+        state.copyWith(authStatus: AuthStatus.loginSuccess),
       ),
     );
   }
   Future<void> register(RegisterModel model) async {
-    emit(state.copyWith(authStatus: AuthStatus.loading));
+    emit(state.copyWith(authStatus: AuthStatus.registerLoading));
     (await authRepo.register(model)).fold(
       (error) => emit(
-          state.copyWith(authStatus: AuthStatus.error, errorMessage: error)),
+          state.copyWith(authStatus: AuthStatus.registerError, errorMessage: error)),
       (success) => emit(
-        state.copyWith(authStatus: AuthStatus.success),
+        state.copyWith(authStatus: AuthStatus.registerSuccess),
       ),
     );
   }

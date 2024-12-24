@@ -1,8 +1,11 @@
 enum AuthStatus {
   init,
-  loading,
-  error,
-  success,
+  loginSuccess,
+  loginError,
+  loginLoading,
+  registerLoading,
+  registerError,
+  registerSuccess,
   isPasswordShoe,
   updateLevel;
 }
@@ -10,11 +13,14 @@ enum AuthStatus {
 extension AuthExtension on AuthStates {
   get isInit => authStatus == AuthStatus.init;
 
-  get isLoading => authStatus == AuthStatus.loading;
-
-  get isError => authStatus == AuthStatus.error;
-
-  get isSuccess => authStatus == AuthStatus.success;
+  // login state
+  get isLoginError => authStatus == AuthStatus.loginError;
+  get isLoginLoading => authStatus == AuthStatus.loginLoading;
+  get isLoginSuccess => authStatus == AuthStatus.loginSuccess;
+  // register state
+  get isRegisterLoading => authStatus == AuthStatus.registerLoading;
+  get isRegisterError => authStatus == AuthStatus.registerError;
+  get isRegisterSuccess => authStatus == AuthStatus.registerSuccess;
 }
 
 class AuthStates {

@@ -7,6 +7,7 @@ import 'package:jop_task/core/app_router/route_name.dart';
 import 'package:jop_task/core/app_stylse.dart';
 import 'package:jop_task/core/widgets/custom_button.dart';
 import 'package:jop_task/core/widgets/custom_snack_bar.dart';
+import 'package:jop_task/core/widgets/custom_text.dart';
 import 'package:jop_task/featurs/task/logic/state.dart';
 
 import '../../../../../../core/app_icons.dart';
@@ -22,18 +23,18 @@ class LogoutWidget extends StatelessWidget {
       value: cubit,
       child: BlocConsumer<TaskCubit, TaskStates>(
         listener: (context, state) {
-          if (state.isError) {
+          if (state.isLogoutError) {
             CustomSnackBar.show(
               context: context,
               massage: state.errorMessage ?? '',
               snackBarType: SnackBarType.error,
             );
           }
-          if (state.isSuccess) {
+          if (state.isLogoutSuccess) {
             CustomSnackBar.show(
               context: context,
               massage: 'Logout Successfully',
-              snackBarType: SnackBarType.error,
+              snackBarType: SnackBarType.success,
             );
             Navigator.pushNamedAndRemoveUntil(
                 context, RouteName.login, (route) => false);
@@ -50,14 +51,14 @@ class LogoutWidget extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Text(
-                          'You are sure from logout',
+                        CustomText(
+                         text:  'You are sure from logout',
                           style: AppStyles.hintStyle()
                               .copyWith(color: AppColors.black24),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child:state.isLoading
+                          child:state.isLogoutLoading
                               ? const CircularProgressIndicator()
                               : Row(
                             spacing: context.scaledWidth(20),

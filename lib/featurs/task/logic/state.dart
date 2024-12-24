@@ -2,21 +2,39 @@ import 'package:jop_task/featurs/auth/data/models/register_model.dart';
 
 enum TaskStatus {
   init,
-  loading,
-  error,
-  success,
+
+  logoutLoading,
+  logoutError,
+  logoutSuccess,
+ selectedImageError,
+  createTaskSuccess,
+  crateTaskError,
+  createTaskLoading,
   updatePriority,
   selectedDate,
+  scanningSuccess,
+  getUserInfoLoading,
+  getUserInfoError,
+  getUserInfoSuccess,
 }
 
 extension TaskExtension on TaskStates {
   get isInit => taskStatus == TaskStatus.init;
+  get isScanningSuccess => taskStatus == TaskStatus.scanningSuccess;
+  get isSelectedImageError => taskStatus == TaskStatus.selectedImageError;
+  // logout state
+  get isLogoutLoading => taskStatus == TaskStatus.logoutLoading;
+  get isLogoutError => taskStatus == TaskStatus.logoutError;
+  get isLogoutSuccess => taskStatus == TaskStatus.logoutSuccess;
 
-  get isLoading => taskStatus == TaskStatus.loading;
+  // create task state
+  get isCreateTaskLoading => taskStatus == TaskStatus.createTaskLoading;
+  get isCreateTaskError => taskStatus == TaskStatus.crateTaskError;
+  get isCreateTaskSuccess => taskStatus == TaskStatus.createTaskSuccess;
 
-  get isError => taskStatus == TaskStatus.error;
-
-  get isSuccess => taskStatus == TaskStatus.success;
+  get isGetUserInfoLoading => taskStatus == TaskStatus.getUserInfoLoading;
+  get isGetUserInfoError => taskStatus == TaskStatus.getUserInfoError;
+  get isGetUserInfoSuccess => taskStatus == TaskStatus.getUserInfoSuccess;
 }
 
 class TaskStates {
