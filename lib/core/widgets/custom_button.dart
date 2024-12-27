@@ -9,6 +9,7 @@ class CustomButton extends StatelessWidget {
   final double? minWidth;
   final double? height;
   final Color? backgroundColor;
+  final TextStyle?textStyle;
   final void Function()? onPressed;
 
   const CustomButton(
@@ -17,7 +18,7 @@ class CustomButton extends StatelessWidget {
       this.icons,
       this.onPressed,
       this.minWidth,
-      this.height, this.backgroundColor});
+      this.height, this.backgroundColor, this.textStyle});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class CustomButton extends StatelessWidget {
           children: [
             Text(
               text,
-              style: AppStyles.textButtonStyle(),
+              style:textStyle?? AppStyles.textButtonStyle(),
             ),
             icons ?? const SizedBox.shrink(),
           ],

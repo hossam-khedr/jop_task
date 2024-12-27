@@ -8,25 +8,28 @@ import 'package:jop_task/core/app_stylse.dart';
 import 'package:jop_task/core/widgets/custom_button.dart';
 import 'package:jop_task/core/widgets/custom_snack_bar.dart';
 import 'package:jop_task/core/widgets/custom_text.dart';
-import 'package:jop_task/featurs/task/logic/state.dart';
+
+import 'package:jop_task/featurs/task/ui/screens/all_tasks/logic/cubit.dart';
+import 'package:jop_task/featurs/task/ui/screens/all_tasks/logic/states.dart';
 
 import '../../../../../../core/app_icons.dart';
-import '../../../../logic/cubit.dart';
+
 
 class LogoutWidget extends StatelessWidget {
   const LogoutWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var cubit = BlocProvider.of<TaskCubit>(context);
+    var cubit = BlocProvider.of<TasksCubit>(context);
     return BlocProvider.value(
       value: cubit,
-      child: BlocConsumer<TaskCubit, TaskStates>(
+      child: BlocConsumer<TasksCubit, TasksStates>(
         listener: (context, state) {
+          debugPrint('Listener State : ${state.toString()}');
           if (state.isLogoutError) {
             CustomSnackBar.show(
               context: context,
-              massage: state.errorMessage ?? '',
+              massage: state.errorMsg,
               snackBarType: SnackBarType.error,
             );
           }
@@ -37,55 +40,87 @@ class LogoutWidget extends StatelessWidget {
               snackBarType: SnackBarType.success,
             );
             Navigator.pushNamedAndRemoveUntil(
-                context, RouteName.login, (route) => false);
+                context, RouteName.welcome, (route) => false);
           }
         },
         builder: (context, state) {
+          debugPrint('Builder State : ${state.toString()}');
           return InkWell(
             onTap: () {
               showDialog(
                 context: context,
                 builder: (context) => Dialog(
-                  child: SizedBox(
-                    height: context.scaledHeight(120),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: context.scaledWidth(20),
+                      vertical: context.scaledHeight(10),
+                    ),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: context.scaledHeight(10),
                       children: [
+                        Container(
+                          height: context.scaledHeight(50),
+                          width: context.scaledWidth(50),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.red.withOpacity(0.2),
+                          ),
+                          child: const Icon(
+                            Icons.error_outline,
+                            color: Colors.red,
+                          ),
+                        ),
                         CustomText(
-                         text:  'You are sure from logout',
+                          text: 'You are about to logout',
                           style: AppStyles.hintStyle()
                               .copyWith(color: AppColors.black24),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child:state.isLogoutLoading
-                              ? const CircularProgressIndicator()
-                              : Row(
-                            spacing: context.scaledWidth(20),
-                            children: [
-                               Expanded(
-                                      child: CustomButton(
-                                        onPressed: () {
-                                          cubit.logout();
-                                        },
-                                        text: 'Ok',
-                                        height: context.scaledHeight(40),
-                                        backgroundColor: AppColors.error,
-                                      ),
+                        CustomText(
+                            text:
+                                'Are you sure you wont to logout? This action cannot be undone',
+                            style:
+                                AppStyles.hintStyle().copyWith(fontSize: 12)),
+                        state.isLogoutLoading && state.isGetTasksSuccess
+                            ? const CircularProgressIndicator()
+                            : Row(
+                              spacing: context.scaledWidth(20),
+                              children: [
+                                Expanded(
+                                  child: CustomButton(
+                                    onPressed: () {
+                                      cubit.logout();
+                                    },
+                                    text: 'Logout',
+                                    textStyle: AppStyles.taskItemStyle().copyWith(color: AppColors.whit),
+                                    height: context.scaledHeight(35),
+                                    backgroundColor: AppColors.primary,
+                                    icons:  Icon(
+                                      Icons.done,
+                                      size: context.scaledWidth(20),
+                                      color: AppColors.whit,
                                     ),
-                              Expanded(
-                                child: CustomButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  text: 'No',
-                                  height: context.scaledHeight(40),
-                                  backgroundColor: AppColors.gry300,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        )
+                                Expanded(
+                                  child: CustomButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    text: 'cancel',
+                                    textStyle: AppStyles.taskItemStyle().copyWith(color: AppColors.gry200),
+                                    height: context.scaledHeight(35),
+                                    backgroundColor: AppColors.whit,
+                                    icons:  Icon(
+                                      Icons.cancel_outlined,
+                                      size:context.scaledWidth(20),
+                                      color: AppColors.gry200,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
                       ],
                     ),
                   ),

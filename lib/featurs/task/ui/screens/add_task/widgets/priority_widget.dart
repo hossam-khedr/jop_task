@@ -5,8 +5,8 @@ import 'package:jop_task/core/app_colors.dart';
 import 'package:jop_task/core/app_icons.dart';
 import 'package:jop_task/core/app_responsive.dart';
 import 'package:jop_task/core/app_stylse.dart';
-import 'package:jop_task/featurs/task/logic/cubit.dart';
-import 'package:jop_task/featurs/task/logic/state.dart';
+import 'package:jop_task/featurs/task/ui/screens/add_task/logic/cubit.dart';
+import 'package:jop_task/featurs/task/ui/screens/add_task/logic/states.dart';
 
 class PriorityWidget extends StatefulWidget {
   const PriorityWidget({super.key});
@@ -23,10 +23,10 @@ class _PriorityWidgetState extends State<PriorityWidget> {
   ];
   @override
   Widget build(BuildContext context) {
-    var cubit = BlocProvider.of<TaskCubit>(context);
+    var cubit = BlocProvider.of<AddTaskCubit>(context);
     return BlocProvider.value(
       value: cubit,
-      child: BlocBuilder<TaskCubit,TaskStates>(
+      child: BlocBuilder<AddTaskCubit,AddTaskStates>(
         builder: (context,state){
           return Container(
             width: double.infinity,

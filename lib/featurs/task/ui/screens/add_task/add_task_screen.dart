@@ -4,13 +4,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jop_task/core/app_icons.dart';
 import 'package:jop_task/core/app_responsive.dart';
 import 'package:jop_task/core/app_stylse.dart';
+import 'package:jop_task/core/params/create_task_params.dart';
 import 'package:jop_task/core/widgets/custom_button.dart';
 import 'package:jop_task/core/widgets/custom_snack_bar.dart';
 import 'package:jop_task/core/widgets/custom_text.dart';
 import 'package:jop_task/core/widgets/custom_text_form_field.dart';
-import 'package:jop_task/featurs/task/data/models/task_model.dart';
-import 'package:jop_task/featurs/task/logic/cubit.dart';
-import 'package:jop_task/featurs/task/logic/state.dart';
+import 'package:jop_task/featurs/task/ui/screens/add_task/logic/cubit.dart';
+import 'package:jop_task/featurs/task/ui/screens/add_task/logic/states.dart';
 import 'package:jop_task/featurs/task/ui/screens/add_task/widgets/add_image.dart';
 import 'package:jop_task/featurs/task/ui/screens/add_task/widgets/app_bar.dart';
 import 'package:jop_task/featurs/task/ui/screens/add_task/widgets/priority_widget.dart';
@@ -28,12 +28,19 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<TaskCubit, TaskStates>(
+    return BlocConsumer<AddTaskCubit, AddTaskStates>(
       listener: (context, state) {
         if (state.isCreateTaskError) {
           CustomSnackBar.show(
             context: context,
-            massage: state.errorMessage ?? '',
+            massage: state.errorMsg ,
+            snackBarType: SnackBarType.error,
+          );
+        }
+        if (state.isSelectedImageError) {
+          CustomSnackBar.show(
+            context: context,
+            massage: state.errorMsg ,
             snackBarType: SnackBarType.error,
           );
         }
@@ -56,12 +63,17 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  context.read<TaskCubit>().compressedImage != null
-                      ? ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                          child: Image.file(
-                              context.read<TaskCubit>().compressedImage!),
-                        )
+                  state.compressedImage != null
+                      ? Center(
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.file(
+                              height: context.scaledHeight(100),
+                                width: context.scaledWidth(100),
+                                fit: BoxFit.cover,
+                                state.compressedImage!),
+                          ),
+                      )
                       : const AddImage(),
                   SizedBox(
                     height: context.scaledHeight(16),
@@ -103,7 +115,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       padding: EdgeInsets.all(context.scaledWidth(10)),
                       child: GestureDetector(
                         onTap: () {
-                          context.read<TaskCubit>().pickeDate(context);
+                          context.read<AddTaskCubit>().pickeDate(context);
                         },
                         child: SvgPicture.asset(SvgIcons.calender),
                       ),
@@ -117,18 +129,18 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           child: CircularProgressIndicator(),
                         )
                       : CustomButton(
-                          text: 'Add all_tasks',
+                          text: 'Add Task',
                           onPressed: () {
-                            TaskModel task = TaskModel(
-                                image: context
-                                    .read<TaskCubit>()
-                                    .compressedImage
-                                    ?.path,
+
+                            CreateTaskParams params = CreateTaskParams(
+                                image:state. compressedImage!.path,
                                 title: taskTitle.text,
                                 desc: taskDesc.text,
                                 priority: state.selectedPriority,
                                 dueDate: state.dataFormat);
-                            context.read<TaskCubit>().addTask(task);
+                            context.read<AddTaskCubit>().addTask(params);
+                            debugPrint(
+                                '${state.compressedImage!.path},${state.dataFormat},${state.selectedPriority},${taskTitle.text},${taskDesc.text}');
                           },
                         )
                 ],

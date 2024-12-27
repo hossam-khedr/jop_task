@@ -1,0 +1,4 @@
+#Fri Dec 27 12:39:44 SAST 2024
+base.0=C\:\\Users\\abdalla shiha\\StudioProjects\\jop_task\\android\\app\\build\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex

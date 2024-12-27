@@ -12,16 +12,19 @@ class CustomSnackBar {
     SnackBarType snackBarType = SnackBarType.info,
     Duration duration = const Duration(seconds: 3),
   }) {
-    ScaffoldMessenger.of(context).removeCurrentSnackBar();
-    final snackBar = SnackBar(
-      content:
-      MySnackBarContent(massage: massage, snackBarType: snackBarType),
-      duration: duration,
-      behavior: SnackBarBehavior.floating,
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      final snackBar = SnackBar(
+        content:
+        MySnackBarContent(massage: massage, snackBarType: snackBarType),
+        duration: duration,
+        behavior: SnackBarBehavior.fixed,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    });
+
   }
 }
 

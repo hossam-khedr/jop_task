@@ -6,7 +6,7 @@ import 'package:jop_task/core/app_colors.dart';
 import 'package:jop_task/core/app_icons.dart';
 import 'package:jop_task/core/app_responsive.dart';
 import 'package:jop_task/core/app_stylse.dart';
-import 'package:jop_task/featurs/task/logic/cubit.dart';
+import 'package:jop_task/featurs/task/ui/screens/add_task/logic/cubit.dart';
 
 class AddImage extends StatefulWidget {
   const AddImage({super.key});
@@ -25,7 +25,7 @@ class _AddImageState extends State<AddImage> {
       borderType: BorderType.RRect,
       child: GestureDetector(
         onTap: (){
-          context.read<TaskCubit>().chooseImage();
+          context.read<AddTaskCubit>().chooseImage();
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

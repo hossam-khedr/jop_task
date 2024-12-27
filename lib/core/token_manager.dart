@@ -17,10 +17,6 @@ class TokenManager {
           endpoint: 'auth/refresh-token',
           queryParameters: {'token': refreshToken});
       final newToken = response.data['access_token'];
-      // if(newToken != null){
-      // //  await SecureManager.setData(
-      // //       key: AppConstants.accessToken, value: newToken);
-      // // }
       return newToken;
     } catch (e) {
       debugPrint('REFRESH TOKEN ERROR : ${e.toString()}');

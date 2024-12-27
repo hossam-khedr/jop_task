@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jop_task/core/app_colors.dart';
 import 'package:jop_task/core/app_icons.dart';
 import 'package:jop_task/core/app_responsive.dart';
 import 'package:jop_task/core/app_router/route_name.dart';
-import 'package:jop_task/featurs/task/logic/cubit.dart';
-import 'package:jop_task/featurs/task/logic/state.dart';
+
 
 import 'logout_widget.dart';
 

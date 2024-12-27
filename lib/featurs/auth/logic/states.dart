@@ -7,7 +7,8 @@ enum AuthStatus {
   registerError,
   registerSuccess,
   isPasswordShoe,
-  updateLevel;
+  updateLevel,
+
 }
 
 extension AuthExtension on AuthStates {
@@ -21,6 +22,8 @@ extension AuthExtension on AuthStates {
   get isRegisterLoading => authStatus == AuthStatus.registerLoading;
   get isRegisterError => authStatus == AuthStatus.registerError;
   get isRegisterSuccess => authStatus == AuthStatus.registerSuccess;
+
+
 }
 
 class AuthStates {

@@ -29,7 +29,7 @@ dependencies:
   image_picker: ^1.1.2
   intl: ^0.20.1
   image: ^4.5.2
-  mobile_scanner: ^6.0.2
+  qr_code_scanner: ^1.0.1
 
 dev_dependencies:
   flutter_test:

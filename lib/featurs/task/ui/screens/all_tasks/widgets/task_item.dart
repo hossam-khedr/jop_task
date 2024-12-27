@@ -3,12 +3,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jop_task/core/app_colors.dart';
 import 'package:jop_task/core/app_responsive.dart';
 import 'package:jop_task/core/widgets/custom_text.dart';
+import 'package:jop_task/featurs/task/data/models/task_model.dart';
 
 import '../../../../../../core/app_icons.dart';
 import '../../../../../../core/app_stylse.dart';
 
-class TaskItem extends StatelessWidget {
-  const TaskItem({super.key});
+class AllTasksItem extends StatelessWidget {
+ final TaskModel model;
+  const AllTasksItem({super.key, required this.model});
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +18,9 @@ class TaskItem extends StatelessWidget {
       visualDensity: VisualDensity(
         horizontal: context.scaledWidth(-4)
       ),
-      leading: const CircleAvatar(
+      leading:  CircleAvatar(
         radius: 30,
-        backgroundImage: AssetImage('assets/images/logo.png'),
+        backgroundImage: NetworkImage(model.image??'No Image'),
       ),
       title: Row(
          // spacing: context.scaledWidth(10),
@@ -26,7 +28,7 @@ class TaskItem extends StatelessWidget {
           children: [
             Expanded(
               child: CustomText(
-                text: 'Task Title Task Title Task Title Task Title',
+                text: model.title?? 'No title',
                 overflow: TextOverflow.ellipsis,
                 style: AppStyles.titleStyle().copyWith(fontSize: 16),
               ),
@@ -40,7 +42,7 @@ class TaskItem extends StatelessWidget {
                   color: AppColors.redLight,
                   borderRadius: BorderRadius.circular(5)),
               child:
-                  CustomText(text: 'Status', style: AppStyles.taskItemStyle()),
+                  CustomText(text: model.status??'No Status', style: AppStyles.taskItemStyle()),
             ),
             menuWidget(context),
           ]),
@@ -48,7 +50,7 @@ class TaskItem extends StatelessWidget {
         spacing: context.scaledHeight(5),
         children: [
           CustomText(
-            text: 'Descrebtion Descrebtion Descrebtion Descrebtion Descrebtion',
+            text: model.desc??'No Descrebtion',
             style: AppStyles.hintStyle(),
             overflow: TextOverflow.ellipsis,
           ),
@@ -60,13 +62,13 @@ class TaskItem extends StatelessWidget {
                 children: [
                   SvgPicture.asset(SvgIcons.smallFlag),
                   CustomText(
-                    text: 'Priority',
+                    text: model.priority??'No Priority',
                     style: AppStyles.prioritySmallTextStyle()
                         .copyWith(color: AppColors.primary),
                   )
                 ],
               ),
-              CustomText(text: '1-1-2024', style: AppStyles.hintStyle())
+              CustomText(text: model.createdAt??'No Date', style: AppStyles.hintStyle())
             ],
           )
         ],

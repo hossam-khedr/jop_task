@@ -7,8 +7,8 @@ import 'package:jop_task/core/app_responsive.dart';
 import 'package:jop_task/core/app_stylse.dart';
 import 'package:jop_task/core/widgets/custom_snack_bar.dart';
 import 'package:jop_task/core/widgets/custom_text.dart';
-import 'package:jop_task/featurs/task/logic/cubit.dart';
-import 'package:jop_task/featurs/task/logic/state.dart';
+import 'package:jop_task/featurs/task/ui/screens/profile/logic/cubit.dart';
+import 'package:jop_task/featurs/task/ui/screens/profile/logic/states.dart';
 import 'package:jop_task/featurs/task/ui/screens/profile/widgets/body_profile_widget.dart';
 import 'package:jop_task/featurs/task/ui/screens/profile/widgets/profile_app_bar.dart';
 
@@ -23,7 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<TaskCubit>().getUserInfo();
+    context.read<ProfileCubit>().getUserInfo();
   }
 
   @override
@@ -35,12 +35,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
           horizontal: context.scaledWidth(24),
           vertical: context.scaledHeight(24),
         ),
-        child: BlocBuilder<TaskCubit, TaskStates>(
+        child: BlocBuilder<ProfileCubit, ProfileStates>(
           builder: (context, state) {
             if (state.isGetUserInfoError) {
               return Center(
                 child: CustomText(
-                  text: state.errorMessage ?? '',
+                  text: state.errorMsg,
                   style: AppStyles.errorStyle(),
                 ),
               );
@@ -58,11 +58,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   BodyProfileWidget(
                     title: 'PHONE',
-                    subTitle: state.model?.phone ?? 'no phone',
+                    subTitle: state.model?.username ?? 'no phone',
                     leading: InkWell(
                       onTap: () {
                         Clipboard.setData(
-                             ClipboardData(text: state.model?.phone??''));
+                             ClipboardData(text: state.model?.username??''));
                         CustomSnackBar.show(
                           context: context,
                           massage: 'Copyed',

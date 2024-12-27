@@ -8,7 +8,10 @@ import 'package:jop_task/featurs/auth/logic/cubit.dart';
 import 'package:jop_task/featurs/task/data/data_source.dart';
 import 'package:jop_task/featurs/task/data/remote/remote_data_source.dart';
 import 'package:jop_task/featurs/task/data/repo.dart';
-import 'package:jop_task/featurs/task/logic/cubit.dart';
+import 'package:jop_task/featurs/task/ui/screens/add_task/logic/cubit.dart';
+import 'package:jop_task/featurs/task/ui/screens/all_tasks/logic/cubit.dart';
+import 'package:jop_task/featurs/task/ui/screens/profile/logic/cubit.dart';
+import 'package:jop_task/featurs/task/ui/screens/qr_code/logic/cubit.dart';
 
 import 'networking/api_services/api_services_impl.dart';
 
@@ -27,5 +30,8 @@ Future<void>initAuthModule()async{
 Future<void>initTaskModule()async{
   sl.registerLazySingleton<TaskDatasource>(()=>TaskDataSourceImpl(apiServices: sl()));
   sl.registerLazySingleton<TaskRepo>(()=>TaskRepo(taskDatasource: sl()));
-  sl.registerLazySingleton<TaskCubit>(()=>TaskCubit(taskRepo: sl()));
+  sl.registerLazySingleton<TasksCubit>(()=>TasksCubit(taskRepo: sl()));
+  sl.registerLazySingleton<AddTaskCubit>(()=>AddTaskCubit(taskRepo: sl()));
+  sl.registerLazySingleton<ProfileCubit>(()=>ProfileCubit(taskRepo: sl()));
+  sl.registerLazySingleton<QrcodeCubit>(()=>QrcodeCubit());
 }
