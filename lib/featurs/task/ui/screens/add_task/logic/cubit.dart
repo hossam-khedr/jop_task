@@ -1,12 +1,11 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:jop_task/featurs/task/ui/screens/add_task/logic/states.dart';
-
+import 'package:image/image.dart' as img;
 import '../../../../../../core/params/create_task_params.dart';
 import '../../../../data/repo.dart';
 
@@ -48,35 +47,119 @@ class AddTaskCubit extends Cubit<AddTaskStates> {
 
   final ImagePicker picker = ImagePicker();
 
+//? this method is responsible on image to sever
+ Future<void> uploadImage(File file) async {
+  debugPrint('UPLOAD ==============================================1');
+
+  if (!isClosed) {
+    emit(state.copyWith(addTaskEnum: AddTaskEnum.uploadImageLoading));
+  }
+
+  try {
+    
+    if (!file.existsSync()) {
+      debugPrint('Error: File does not exist.');
+      if (!isClosed) {
+        emit(state.copyWith(
+            addTaskEnum: AddTaskEnum.uploadImageError,
+            errorMsg: 'File does not exist.'));
+      }
+      return;
+    }
+
+    final result = await taskRepo.uploadImage(file);
+    result.fold(
+      (error) {
+        
+        if (!isClosed) {
+          emit(state.copyWith(
+              addTaskEnum: AddTaskEnum.uploadImageError, errorMsg: error));
+        }
+        debugPrint('UPLOAD Error: $error');
+      },
+      (success) {
+        
+        if (!isClosed) {
+          emit(state.copyWith(
+              addTaskEnum: AddTaskEnum.uploadImageSuccess,
+              selectedImage: file));
+        }
+        debugPrint('UPLOAD ==============================================3');
+      },
+    );
+  } catch (e) {
+    
+    debugPrint('Error in uploadImage: $e');
+    if (!isClosed) {
+      emit(state.copyWith(
+          addTaskEnum: AddTaskEnum.uploadImageError,
+          errorMsg: 'Unexpected error occurred during upload.'));
+    }
+  }
+}
+
+
+  //? this method responsible on compression the image
+  void imageCompression(File originalFile)  {
+  debugPrint('Compression ==============================================1');
+  debugPrint('Original size: ${originalFile.lengthSync()} bytes');
+
+  final img.Image? imageTamp = img.decodeImage(originalFile.readAsBytesSync());
+  if (imageTamp != null) {
+    debugPrint('Original dimensions: ${imageTamp.width}x${imageTamp.height}');
+
+  
+    final img.Image compressedTemp = img.copyResize(
+      imageTamp,
+      width: 400,
+      height: 400,
+    );
+    debugPrint('Compression ==============================================2');
+
+   
+    final String compressedPath = '${originalFile.parent.path}/compressed_${DateTime.now().millisecondsSinceEpoch}.png';
+    File compressedFile = File(compressedPath)
+      ..writeAsBytesSync(img.encodePng(compressedTemp,));
+
+    debugPrint('Compressed size: ${compressedFile.lengthSync()} bytes');
+    debugPrint('Compressed dimensions: ${compressedTemp.width}x${compressedTemp.height}');
+
+    if (!isClosed) {
+      debugPrint('Compression ==============================================3');
+      emit(state.copyWith(selectedImage: compressedFile));
+    }
+  }
+}
+
+  //?this method responsible on choose the image then upload the image
   Future<void> chooseImage() async {
+    debugPrint('CHOOSE ==============================================1');
     final image = await picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
-      state.compressedImage = File(image.path);
+      state.selectedImage= File(image.path);
+       
 
-      // File originalFile = File(image.path);
-      // final img.Image? imageTamp =
-      //     img.decodeImage(originalFile.readAsBytesSync());
-      // if (imageTamp != null) {
-      //   final img.Image compressedTemp =
-      //       img.copyResize(imageTamp, width: 800, height: 600);
-      //   state.compressedImage = File(originalFile.path)
-      //     ..writeAsBytesSync(img.encodeJpg(compressedTemp, quality: 70));
-      // }
-      debugPrint(
-          'Image compressed successfully: ${state.compressedImage?.path}');
+      if (state.selectedImage != null) {
+        imageCompression(state.selectedImage!);
+        await uploadImage(state.selectedImage!);
+        debugPrint(
+            'Image compressed successfully: ${state.selectedImage?.path.split('/').last}');
+      } else {
+        debugPrint('Selected Image Error');
+      }
     }
   }
 
   Future<void> addTask(CreateTaskParams params) async {
-    if (state.compressedImage == null) {
-      if (!isClosed) {
-        emit(state.copyWith(
-            addTaskEnum: AddTaskEnum.selectedImageError,
-            errorMsg: 'Plays choose the image'));
-      }
+    // if (state.selectedImage == null) {
+    //   if (!isClosed) {
+    //     emit(state.copyWith(
+    //         addTaskEnum: AddTaskEnum.selectedImageError,
+    //         errorMsg: 'Plays choose the image'));
+    //   }
 
-      return;
-    }
+    //   return;
+    // }
     if (!isClosed) {
       emit(state.copyWith(
         addTaskEnum: AddTaskEnum.createTaskLoading,
@@ -84,7 +167,6 @@ class AddTaskCubit extends Cubit<AddTaskStates> {
     }
 
     (await taskRepo.addTask(
-      path: state.compressedImage!.path,
       params: params,
     ))
         .fold((error) {

@@ -30,6 +30,7 @@ dependencies:
   intl: ^0.20.1
   image: ^4.5.2
   qr_code_scanner: ^1.0.1
+  flutter_image_compress: ^2.3.0
 
 dev_dependencies:
   flutter_test:

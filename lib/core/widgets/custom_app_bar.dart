@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:jop_task/core/app_icons.dart';
 import 'package:jop_task/core/app_responsive.dart';
+import 'package:jop_task/core/app_stylse.dart';
 import 'package:jop_task/core/widgets/custom_text.dart';
 
-import '../../../../../../core/app_icons.dart';
-import '../../../../../../core/app_stylse.dart';
-
-class ProfileAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const ProfileAppBar({super.key});
+class CustomAppBat extends StatelessWidget implements PreferredSizeWidget {
+  final String title;
+  final List<Widget>?actions;
+  const CustomAppBat({super.key, required this.title, this.actions});
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +25,10 @@ class ProfileAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       title: CustomText(
-      text:   'Profile',
+      text:   title,
         style: AppStyles.appBarTitleStyle(),
       ),
+      actions: actions,
     );
   }
 

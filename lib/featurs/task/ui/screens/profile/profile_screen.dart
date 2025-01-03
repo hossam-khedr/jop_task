@@ -5,12 +5,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jop_task/core/app_icons.dart';
 import 'package:jop_task/core/app_responsive.dart';
 import 'package:jop_task/core/app_stylse.dart';
+import 'package:jop_task/core/widgets/custom_app_bar.dart';
 import 'package:jop_task/core/widgets/custom_snack_bar.dart';
 import 'package:jop_task/core/widgets/custom_text.dart';
 import 'package:jop_task/featurs/task/ui/screens/profile/logic/cubit.dart';
 import 'package:jop_task/featurs/task/ui/screens/profile/logic/states.dart';
 import 'package:jop_task/featurs/task/ui/screens/profile/widgets/body_profile_widget.dart';
-import 'package:jop_task/featurs/task/ui/screens/profile/widgets/profile_app_bar.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -29,7 +29,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const ProfileAppBar(),
+      appBar: const CustomAppBat(title: 'Profile'),
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: context.scaledWidth(24),

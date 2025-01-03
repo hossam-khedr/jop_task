@@ -7,8 +7,11 @@ import 'package:jop_task/featurs/auth/ui/screens/login_screen.dart';
 import 'package:jop_task/featurs/auth/ui/screens/register_screen.dart';
 import 'package:jop_task/featurs/open_app/splash.dart';
 import 'package:jop_task/featurs/open_app/welcome.dart';
+import 'package:jop_task/featurs/task/data/models/task_model.dart';
 import 'package:jop_task/featurs/task/ui/screens/add_task/logic/cubit.dart';
 import 'package:jop_task/featurs/task/ui/screens/all_tasks/logic/cubit.dart';
+import 'package:jop_task/featurs/task/ui/screens/details/details_screen.dart';
+import 'package:jop_task/featurs/task/ui/screens/details/logic/cubit.dart';
 import 'package:jop_task/featurs/task/ui/screens/profile/logic/cubit.dart';
 import 'package:jop_task/featurs/task/ui/screens/profile/profile_screen.dart';
 import 'package:jop_task/featurs/task/ui/screens/qr_code/logic/cubit.dart';
@@ -43,7 +46,7 @@ class RouteGenerator {
       case RouteName.task:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (_) => sl<TasksCubit>()..getAllTasks()..getInProgressTask('inProgress'),
+            create: (_) => sl<TasksCubit>()..getInProgressTask('inProgress'),
             child: const TaskScreen(),
           ),
         );
@@ -67,6 +70,14 @@ class RouteGenerator {
             create: (_) => sl<QrcodeCubit>(),
             child: const QrCodeScreen() ,
           ),
+        );
+        case RouteName.taskDetails:
+       TaskModel model = arguments as TaskModel;
+        return MaterialPageRoute(
+          builder: (_) =>   BlocProvider(
+            create: (_)=>sl<TaskDetailsCubit>(),
+            child: DetailsScreen(taskModel: model,)) ,
+          
         );
       default:
         return null;

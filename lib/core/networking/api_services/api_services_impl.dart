@@ -9,8 +9,8 @@ import '../../di.dart';
 import '../error_handler.dart';
 
 class AipServicesImplWithDio implements ApiServices {
-
   Dio dio;
+
   AipServicesImplWithDio({required this.dio}) {
     dio = Dio(
       BaseOptions(
@@ -23,27 +23,48 @@ class AipServicesImplWithDio implements ApiServices {
             'Accept': 'application/json',
           }),
     );
-    dio.interceptors.add(InterceptorsWrapper(
-        onRequest: (options, handler)async {
-          final accessToken =await SecureManager.getData(key: AppConstants.accessToken);
-          if(accessToken != null){
+    dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) async {
+          final accessToken =
+              await SecureManager.getData(key: AppConstants.accessToken);
+          if (accessToken != null) {
             options.headers['Authorization'] = 'Bearer $accessToken';
           }
           return handler.next(options);
-        }, onResponse: (response, handler) {
-      return handler.next(response);
-    }, onError: (DioException error, handler)async {
-      final apiServices = sl<ApiServices>();
-      TokenManager manager = TokenManager(apiServices);
-      final newToken = await manager.refreshToken();
-      if(newToken != null){
-        await SecureManager.setData(key: AppConstants.accessToken, value: newToken);
-        error.requestOptions.headers['Authorization'] = 'Bearer $newToken';
-      }
-      final errorMessage = DioErrorHandler.handleDioError(error);
-      debugPrint('ERROR : $errorMessage');
-      return handler.next(error);
-    }));
+        },
+        onResponse: (response, handler) {
+          return handler.next(response);
+        },
+        onError: (DioException error, handler) async {
+          if (error.response?.statusCode == 401) {
+            final apiServices = sl<ApiServices>();
+            TokenManager manager = TokenManager(apiServices);
+            final newToken = await manager.refreshToken();
+            if (newToken != null) {
+              await SecureManager.setData(
+                  key: AppConstants.accessToken, value: newToken);
+              error.requestOptions.headers['Authorization'] =
+                  'Bearer $newToken';
+            }
+            final options = Options(
+              method: error.requestOptions.method,
+              headers: {'Authorization': 'Bearer $newToken'},
+            );
+            return handler.resolve(await dio.request(
+              error.requestOptions.path,
+              options: options,
+              data: error.requestOptions.data,
+              queryParameters: error.requestOptions.queryParameters
+            ));
+          }
+
+          final errorMessage = ErrorHandler.handleDioError(error);
+          debugPrint('ERROR : $errorMessage');
+          return handler.next(error);
+        },
+      ),
+    );
     if (true) {
       dio.interceptors.add(
         LogInterceptor(requestBody: true, responseBody: true),
@@ -54,9 +75,9 @@ class AipServicesImplWithDio implements ApiServices {
   @override
   Future<dynamic> deleteRequest(
       {required String endpoint,
-        data,
-        Map<String, dynamic>? queryParameters,
-        Options? options}) async {
+      data,
+      Map<String, dynamic>? queryParameters,
+      Options? options}) async {
     try {
       final response = await dio.delete(
         endpoint,
@@ -66,16 +87,16 @@ class AipServicesImplWithDio implements ApiServices {
       );
       return response;
     } on DioException catch (error) {
-      throw DioErrorHandler.handleDioError(error);
+      throw ErrorHandler.handleDioError(error);
     }
   }
 
   @override
   Future getRequest(
       {required String endpoint,
-        data,
-        Map<String, dynamic>? queryParameters,
-        Options? options}) async {
+      data,
+      Map<String, dynamic>? queryParameters,
+      Options? options}) async {
     try {
       final response = await dio.get(
         endpoint,
@@ -85,16 +106,16 @@ class AipServicesImplWithDio implements ApiServices {
       );
       return response;
     } on DioException catch (error) {
-      throw DioErrorHandler.handleDioError(error);
+      throw ErrorHandler.handleDioError(error);
     }
   }
 
   @override
   Future postRequest(
       {required String endpoint,
-        required data,
-        Map<String, dynamic>? queryParameters,
-        Options? options}) async {
+      required data,
+      Map<String, dynamic>? queryParameters,
+      Options? options}) async {
     try {
       final response = await dio.post(
         endpoint,
@@ -104,16 +125,16 @@ class AipServicesImplWithDio implements ApiServices {
       );
       return response;
     } on DioException catch (error) {
-      throw DioErrorHandler.handleDioError(error);
+      throw ErrorHandler.handleDioError(error);
     }
   }
 
   @override
   Future putRequest(
       {required String endpoint,
-        required data,
-        Map<String, dynamic>? queryParameters,
-        Options? options}) async {
+      required data,
+      Map<String, dynamic>? queryParameters,
+      Options? options}) async {
     try {
       final response = await dio.put(
         endpoint,
@@ -123,7 +144,7 @@ class AipServicesImplWithDio implements ApiServices {
       );
       return response;
     } on DioException catch (error) {
-      throw DioErrorHandler.handleDioError(error);
+      throw ErrorHandler.handleDioError(error);
     }
   }
 }

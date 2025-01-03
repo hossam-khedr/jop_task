@@ -1,7 +1,4 @@
 import 'package:jop_task/featurs/task/data/models/user_model.dart';
-
-import '../../../../../auth/data/models/register_model.dart';
-
 enum ProfileEnum{
   init,
   getUserInfoLoading,

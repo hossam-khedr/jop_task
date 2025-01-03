@@ -8,6 +8,9 @@ enum AddTaskEnum{
   selectedImageError,
   updatePriority,
   selectedDate,
+  uploadImageSuccess,
+  uploadImageError,
+  uploadImageLoading,
 }
 extension AddTaskStateExtension on AddTaskStates{
   get isInit => addTaskEnum == AddTaskEnum.init;
@@ -15,6 +18,9 @@ extension AddTaskStateExtension on AddTaskStates{
   get isCreateTaskLoading => addTaskEnum == AddTaskEnum.createTaskLoading;
   get isCreateTaskError => addTaskEnum == AddTaskEnum.crateTaskError;
   get isCreateTaskSuccess => addTaskEnum == AddTaskEnum.createTaskSuccess;
+  get isImageUploaded => addTaskEnum == AddTaskEnum.uploadImageSuccess;
+  get isImageUploadError => addTaskEnum == AddTaskEnum.uploadImageError;
+  get isImageUploadLoading => addTaskEnum == AddTaskEnum.uploadImageLoading;
 }
 
 class AddTaskStates{
@@ -22,22 +28,22 @@ class AddTaskStates{
   final String errorMsg;
   final DateTime? selectedDate;
   final String dataFormat;
-  File? compressedImage;
+  File? selectedImage;
   final String selectedPriority;
   AddTaskStates({
     this.addTaskEnum = AddTaskEnum.init,
     this.errorMsg = '',
     this.selectedDate,
     this.dataFormat = '',
-    this.compressedImage,
-    this.selectedPriority = 'Low Priority'
+    this.selectedImage,
+    this.selectedPriority = 'low'
 });
   AddTaskStates copyWith ({
      AddTaskEnum? addTaskEnum,
      String? errorMsg,
      DateTime? selectedDate,
      String? dataFormat,
-    File? compressedImage,
+    File? selectedImage,
      String? selectedPriority,
 }){
     return AddTaskStates(
@@ -45,7 +51,7 @@ class AddTaskStates{
       errorMsg: errorMsg ?? this.errorMsg,
       dataFormat: dataFormat ?? this.dataFormat,
       selectedDate: selectedDate ?? this.selectedDate,
-      compressedImage: compressedImage ?? this.compressedImage,
+      selectedImage: selectedImage ?? this.selectedImage,
       selectedPriority: selectedPriority ?? this.selectedPriority
     );
   }

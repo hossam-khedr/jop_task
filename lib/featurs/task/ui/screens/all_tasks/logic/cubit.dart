@@ -72,8 +72,10 @@ class TasksCubit extends Cubit<TasksStates>{
         .where((element) =>
         element.status!.toLowerCase().contains(status.toLowerCase()))
         .toList();
-    emit(state.copyWith(
-        tasksEnum: TasksEnum.getTasksSuccess, inProgressList: inProgress));
+    if(!isClosed){
+      emit(state.copyWith(
+          tasksEnum: TasksEnum.getTasksSuccess, inProgressList: inProgress));
+    }
     return inProgress;
   }
 }

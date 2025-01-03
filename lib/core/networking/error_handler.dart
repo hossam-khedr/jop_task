@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-class DioErrorHandler {
+class ErrorHandler {
 
   static const String _connectionTimeout = "انتهت مهلة الاتصال";
   static const String _sendTimeout = "انتهت مهلة إرسال البيانات";

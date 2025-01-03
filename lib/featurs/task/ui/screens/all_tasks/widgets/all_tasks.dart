@@ -18,7 +18,7 @@ class _AllTasksState extends State<AllTasks> {
   @override
   void initState() {
     super.initState();
-   // context.read<TasksCubit>().getAllTasks();
+    context.read<TasksCubit>().getAllTasks();
   }
 
   @override

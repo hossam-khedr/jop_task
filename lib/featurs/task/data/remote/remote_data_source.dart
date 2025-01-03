@@ -1,5 +1,6 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:jop_task/core/app_constants.dart';
 import 'package:jop_task/core/networking/api_services/api_services.dart';
 import 'package:jop_task/core/secure_manager.dart';
@@ -13,24 +14,18 @@ class TaskDataSourceImpl implements TaskDatasource {
   TaskDataSourceImpl({required this.apiServices});
 
   @override
-  Future<dynamic> addTask(String path, CreateTaskParams params) async {
-    FormData fromData = FormData.fromMap({
-      'image':
-          await MultipartFile.fromFile(path, filename: path.split('/').last),
+  Future<dynamic> addTask(CreateTaskParams params) async {
+    var data = {
+      'image': params.image,
       'title': params.title,
       'desc': params.desc,
       'priority': params.priority,
       'dueDate': params.dueDate
-    });
+    };
 
     final response = await apiServices.postRequest(
       endpoint: 'todos',
-      data: fromData,
-      options: Options(
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      ),
+      data: data,
     );
     return response;
   }
@@ -58,6 +53,32 @@ class TaskDataSourceImpl implements TaskDatasource {
   Future<dynamic> getTasks(int pageNumber) async {
     final response = await apiServices
         .getRequest(endpoint: 'todos', queryParameters: {'page': pageNumber});
+    return response;
+  }
+
+  @override
+  Future<dynamic> uploadImage(File imagePath) async {
+    FormData data = FormData.fromMap(
+      {
+        'image': await MultipartFile.fromFile(
+          imagePath.path,
+          filename:imagePath.path.split('/').last,
+        ),
+      },
+    );
+    final response = await apiServices.postRequest(
+      endpoint: 'upload/image',
+      data: data,
+      options: Options(
+        headers: { 'Content-Type': 'multipart/form-data',}
+      )
+    );
+    return response;
+  }
+  
+  @override
+  Future<dynamic> getTaskInfo(String id)async {
+    final response = await apiServices.getRequest(endpoint: 'todos/$id');
     return response;
   }
 }

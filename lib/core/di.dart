@@ -10,6 +10,7 @@ import 'package:jop_task/featurs/task/data/remote/remote_data_source.dart';
 import 'package:jop_task/featurs/task/data/repo.dart';
 import 'package:jop_task/featurs/task/ui/screens/add_task/logic/cubit.dart';
 import 'package:jop_task/featurs/task/ui/screens/all_tasks/logic/cubit.dart';
+import 'package:jop_task/featurs/task/ui/screens/details/logic/cubit.dart';
 import 'package:jop_task/featurs/task/ui/screens/profile/logic/cubit.dart';
 import 'package:jop_task/featurs/task/ui/screens/qr_code/logic/cubit.dart';
 
@@ -33,5 +34,6 @@ Future<void>initTaskModule()async{
   sl.registerLazySingleton<TasksCubit>(()=>TasksCubit(taskRepo: sl()));
   sl.registerLazySingleton<AddTaskCubit>(()=>AddTaskCubit(taskRepo: sl()));
   sl.registerLazySingleton<ProfileCubit>(()=>ProfileCubit(taskRepo: sl()));
+  sl.registerLazySingleton<TaskDetailsCubit>(()=>TaskDetailsCubit(taskRepo: sl()));
   sl.registerLazySingleton<QrcodeCubit>(()=>QrcodeCubit());
 }

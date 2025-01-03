@@ -17,9 +17,9 @@ class PriorityWidget extends StatefulWidget {
 
 class _PriorityWidgetState extends State<PriorityWidget> {
   List<String> priority = [
-    'Low Priority',
-    'Medium Priority',
-    'Height Priority'
+    'low',
+    'medium',
+    'high'
   ];
   @override
   Widget build(BuildContext context) {

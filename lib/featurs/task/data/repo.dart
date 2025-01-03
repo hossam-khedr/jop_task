@@ -1,8 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:jop_task/featurs/auth/data/models/register_model.dart';
 import 'package:jop_task/featurs/task/data/data_source.dart';
 import 'package:jop_task/featurs/task/data/models/task_model.dart';
 import 'package:jop_task/featurs/task/data/models/user_model.dart';
@@ -14,9 +14,9 @@ class TaskRepo{
   TaskRepo({required this.taskDatasource});
 
   Future<Either<String,void>>addTask(
-      {required String path,required CreateTaskParams params})async{
+      {required CreateTaskParams params})async{
     try{
-      await taskDatasource.addTask(path,params);
+      await taskDatasource.addTask(params);
       return const Right(null);
     }catch(e){
       debugPrint('ADD TASK ERROR : ${e.toString()}');
@@ -55,7 +55,28 @@ class TaskRepo{
       return Left(e.toString());
     }
   }
+Future<Either<String,void>>uploadImage(File imagePath)async{
+    try{
+      await taskDatasource.uploadImage(imagePath);
+      return const Right(null);
+    }catch(e){
+      debugPrint('Error uploading image repo: $e');
+      return Left(e.toString());
+    }
+}
 
+Future<Either<String,TaskModel>>getTaskInfo(String taskId)async{
+  try{
+   final response =  await taskDatasource.getTaskInfo(taskId);
+   final data = response.data as Map<String,dynamic>;
+   debugPrint('Task Details Repo ====================== :$data');
+   final model = TaskModel.fromJson(data);
+    return  Right(model);
+  }catch(e){
+    return Left(e.toString());
+  }
+
+}
 
 
 }

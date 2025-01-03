@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jop_task/core/app_colors.dart';
 import 'package:jop_task/core/app_constants.dart';
 import 'package:jop_task/core/app_router/route_name.dart';

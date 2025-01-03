@@ -1,10 +1,10 @@
-import 'dart:io';
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jop_task/core/widgets/custom_app_bar.dart';
 import 'package:jop_task/featurs/task/ui/screens/qr_code/logic/cubit.dart';
 import 'package:jop_task/featurs/task/ui/screens/qr_code/logic/states.dart';
-import 'package:jop_task/featurs/task/ui/screens/qr_code/widgets/qr_code_app_bar.dart';
 
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -20,7 +20,7 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const QrCodeAppBar(),
+        appBar:const CustomAppBat(title: 'QR code'),
         body: Column(
           children: [
             Expanded(
