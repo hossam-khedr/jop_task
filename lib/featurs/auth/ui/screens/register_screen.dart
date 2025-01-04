@@ -94,7 +94,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   CustomTextFormField(
                     hintText: AppStrings.phoneHint,
                     keyboardType: TextInputType.phone,
-                    prefixIcon: CountryCode(),
+                    prefixIcon: const CountryCode(),
                     controller: phone,
                     validator: (value) {
                       if (value!.isEmpty) {

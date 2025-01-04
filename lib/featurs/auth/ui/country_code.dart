@@ -13,7 +13,7 @@ class _CountryCodeState extends State<CountryCode> {
   Widget build(BuildContext context) {
     return  CountryCodePicker(
       mode: CountryCodePickerMode.bottomSheet,
-      favorite: ['+20'],
+      favorite: const ['+20'],
       flagDecoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
       ),

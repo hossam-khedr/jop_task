@@ -23,11 +23,13 @@ class TasksStates{
   String errorMsg;
   final List<TaskModel>tasks;
   final List<TaskModel>inProgressList;
+  final List<TaskModel>waitingList;
   TasksStates({
     this.tasksEnum = TasksEnum.init,
     this.errorMsg = '',
     this.tasks = const[],
     this.inProgressList =const [],
+    this.waitingList = const [],
 });
 
   TasksStates copyWith({
@@ -35,12 +37,14 @@ class TasksStates{
     String? errorMsg,
      List<TaskModel>?tasks,
      List<TaskModel>?inProgressList,
+      List<TaskModel>?waitingList
 }){
     return TasksStates(
       tasksEnum: tasksEnum ??this.tasksEnum,
       errorMsg: errorMsg ?? this.errorMsg,
       tasks: tasks ?? List.from(this.tasks),
       inProgressList: inProgressList ?? List.from(this.inProgressList),
+      waitingList: waitingList ?? List.from(this.waitingList),
     );
   }
 }

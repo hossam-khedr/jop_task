@@ -8,7 +8,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:jop_task/main.dart';
 import 'package:jop_task/tasky.dart';
 
 void main() {

@@ -77,6 +77,15 @@ Future<Either<String,TaskModel>>getTaskInfo(String taskId)async{
   }
 
 }
+Future<Either<String,void>>deleteTask(String taskId)async{
+  try{
+    await taskDatasource.deleteTask(taskId);
+    return  const Right(null);
+  }catch(e){
+    return Left(e.toString());
+  }
+
+}
 
 
 }

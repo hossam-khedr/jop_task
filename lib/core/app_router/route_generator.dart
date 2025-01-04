@@ -46,7 +46,7 @@ class RouteGenerator {
       case RouteName.task:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (_) => sl<TasksCubit>()..getInProgressTask('inProgress'),
+            create: (_) => sl<TasksCubit>(),
             child: const TaskScreen(),
           ),
         );

@@ -9,4 +9,5 @@ abstract class TaskDatasource{
   Future<dynamic>getUserInfo();
   Future<dynamic>getTasks(int pageNumber);
   Future<dynamic>getTaskInfo(String id);
+  Future<dynamic>deleteTask(String id);
 }

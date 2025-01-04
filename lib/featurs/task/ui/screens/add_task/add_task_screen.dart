@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jop_task/core/app_icons.dart';
 import 'package:jop_task/core/app_responsive.dart';
+import 'package:jop_task/core/app_router/route_name.dart';
 import 'package:jop_task/core/app_stylse.dart';
 import 'package:jop_task/core/params/create_task_params.dart';
 import 'package:jop_task/core/widgets/custom_app_bar.dart';
@@ -38,11 +39,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           );
         }
         if (state.isCreateTaskSuccess) {
-          CustomSnackBar.show(
-            context: context,
-            massage: 'Task added successfully',
-            snackBarType: SnackBarType.success,
-          );
+         Navigator.pushReplacementNamed(context, RouteName.task);
         }
       },
       builder: (context, state) {

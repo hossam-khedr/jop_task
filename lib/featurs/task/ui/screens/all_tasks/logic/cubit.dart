@@ -78,4 +78,18 @@ class TasksCubit extends Cubit<TasksStates>{
     }
     return inProgress;
   }
+
+  List<TaskModel> getInWaitingTask(String status) {
+    final allTasks = state.tasks.toList();
+    var waiting = state.waitingList.toList();
+    waiting = allTasks
+        .where((element) =>
+        element.status!.toLowerCase().contains(status.toLowerCase()))
+        .toList();
+    if(!isClosed){
+      emit(state.copyWith(
+          tasksEnum: TasksEnum.getTasksSuccess, waitingList: waiting));
+    }
+    return waiting;
+  }
 }

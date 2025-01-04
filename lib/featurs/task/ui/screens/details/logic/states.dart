@@ -7,7 +7,10 @@ enum TaskDetailsEnum {
   getDetailsSuccess,
   updatePriority,
   updateTaskStatus,
-  updateDateTime
+  updateDateTime,
+  deleteTaskLoading,
+  deleteTaskError,
+  deleteTaskSuccess,
 }
 
 extension TaskDetailsExtension on TaskDetailsStates {
@@ -15,6 +18,9 @@ extension TaskDetailsExtension on TaskDetailsStates {
   get isUpdateStatus => taskDetailsEnum == TaskDetailsEnum.updateTaskStatus;
   get isupdatePriority => taskDetailsEnum == TaskDetailsEnum.updatePriority;
   get isupdateDateTime => taskDetailsEnum == TaskDetailsEnum.updateDateTime;
+  get isDeleteTaskLoading => taskDetailsEnum == TaskDetailsEnum.deleteTaskLoading;
+  get isDeleteTaskError => taskDetailsEnum == TaskDetailsEnum.deleteTaskError;
+  get isDeleteTaskSuccess => taskDetailsEnum == TaskDetailsEnum.deleteTaskSuccess;
   get isGetDetailsLoading =>
       taskDetailsEnum == TaskDetailsEnum.getDetailsLoading;
   get isGetDetailsError => taskDetailsEnum == TaskDetailsEnum.getDetailsError;

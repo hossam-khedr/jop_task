@@ -75,4 +75,36 @@ class TaskDetailsCubit extends Cubit<TaskDetailsStates> {
       );
     }
   }
+
+  Future<void> deleteTask(String taskId) async {
+    if (!isClosed) {
+      emit(
+        state.copyWith(
+          taskDetailsEnum: TaskDetailsEnum.deleteTaskLoading,
+        ),
+      );
+    }
+
+    (await taskRepo.deleteTask(taskId)).fold(
+      (error) {
+        if (!isClosed) {
+          emit(
+            state.copyWith(
+              taskDetailsEnum: TaskDetailsEnum.deleteTaskError,
+              errorMasg: error,
+            ),
+          );
+        }
+      },
+      (success) {
+        if (!isClosed) {
+          emit(
+            state.copyWith(
+              taskDetailsEnum: TaskDetailsEnum.deleteTaskSuccess,
+            ),
+          );
+        }
+      },
+    );
+  }
 }

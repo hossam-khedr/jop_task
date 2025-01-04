@@ -62,23 +62,30 @@ class TaskDataSourceImpl implements TaskDatasource {
       {
         'image': await MultipartFile.fromFile(
           imagePath.path,
-          filename:imagePath.path.split('/').last,
+          filename: imagePath.path.split('/').last,
         ),
       },
     );
     final response = await apiServices.postRequest(
-      endpoint: 'upload/image',
-      data: data,
-      options: Options(
-        headers: { 'Content-Type': 'multipart/form-data',}
-      )
-    );
+        endpoint: 'upload/image',
+        data: data,
+        options: Options(headers: {
+          'Content-Type': 'multipart/form-data',
+        }));
     return response;
   }
-  
+
   @override
-  Future<dynamic> getTaskInfo(String id)async {
+  Future<dynamic> getTaskInfo(String id) async {
     final response = await apiServices.getRequest(endpoint: 'todos/$id');
+    return response;
+  }
+
+  @override
+  Future<dynamic> deleteTask(String id) async {
+    final response = await apiServices.deleteRequest(
+      endpoint: 'todos/$id',
+    );
     return response;
   }
 }

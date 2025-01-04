@@ -14,6 +14,12 @@ class AddTaskCubit extends Cubit<AddTaskStates> {
 
   AddTaskCubit({required this.taskRepo}) : super(AddTaskStates());
 
+  void resetState(){
+if(!isClosed){
+  emit(state.copyWith(addTaskEnum: AddTaskEnum.init));
+}
+  }
+
   void updatePriority(String value) {
     if (!isClosed) {
       emit(
@@ -182,6 +188,7 @@ class AddTaskCubit extends Cubit<AddTaskStates> {
       if (!isClosed) {
         emit(state.copyWith(addTaskEnum: AddTaskEnum.createTaskSuccess));
       }
+      resetState();
     });
   }
 }

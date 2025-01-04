@@ -6,9 +6,20 @@ import 'package:jop_task/featurs/task/ui/screens/all_tasks/logic/states.dart';
 
 
 
-class InProgress extends StatelessWidget {
+class InProgress extends StatefulWidget {
   const InProgress({super.key});
 
+  @override
+  State<InProgress> createState() => _InProgressState();
+}
+
+class _InProgressState extends State<InProgress> {
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<TasksCubit>().getInProgressTask('inProgress');
+  }
   @override
   Widget build(BuildContext context) {
     var cubit = BlocProvider.of<TasksCubit>(context);

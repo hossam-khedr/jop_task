@@ -11,6 +11,7 @@ import 'package:jop_task/featurs/task/data/models/task_model.dart';
 import 'package:jop_task/featurs/task/ui/screens/details/logic/cubit.dart';
 import 'package:jop_task/featurs/task/ui/screens/details/logic/states.dart';
 import 'package:jop_task/featurs/task/ui/screens/details/widgets/chooss_end_date.dart';
+import 'package:jop_task/featurs/task/ui/screens/details/widgets/delete_task_widget.dart';
 import 'package:jop_task/featurs/task/ui/screens/details/widgets/dropdown_menu.dart';
 
 class DetailsScreen extends StatefulWidget {
@@ -33,11 +34,26 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final perentContext = context;
     return Scaffold(
-      appBar: const CustomAppBat(
+      appBar: CustomAppBat(
         title: 'Task Details',
         actions: [
-          CustomMenu(),
+          CustomMenu(
+            onSelected: (value) {
+              if (value == 2) {
+                showModalBottomSheet(
+                  context: perentContext,
+                  builder: (context) => BlocProvider.value(
+                    value: BlocProvider.of<TaskDetailsCubit>(perentContext),
+                    child: DeleteTaskWidget(
+                      taskId: widget.taskModel.sId!,
+                    ),
+                  ),
+                );
+              }
+            },
+          ),
         ],
       ),
       body: BlocBuilder<TaskDetailsCubit, TaskDetailsStates>(

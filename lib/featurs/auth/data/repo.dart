@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jop_task/core/app_constants.dart';
 import 'package:jop_task/core/params/login_params.dart';
 import 'package:jop_task/core/secure_manager.dart';
